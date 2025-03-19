@@ -1,0 +1,12 @@
+{
+  "name": "olib_ecs",
+  "url": "https://github.com/olichose123/olib_ecs",
+  "license": "MIT",
+  "tags": ["ecs", "utility"],
+  "description": "A simple ECS focussing on performance and light on macros.",
+  "version": "0.1.0",
+  "classPath": "src/",
+  "releasenote": "Initial release",
+  "contributors": ["oli_chose123"],
+  "dependencies": {}
+}
