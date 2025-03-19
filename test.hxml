@@ -1,0 +1,12 @@
+-cp src
+-main olib.ecs.tests.Main
+
+-hl bin/out.hl
+
+-D debug
+-D hscriptPos
+-D message-reporting=pretty
+-D hl-check
+-D UTEST_PRINT_TESTS
+
+-L utest
