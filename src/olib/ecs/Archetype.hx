@@ -28,7 +28,7 @@ class Archetype
         if (ecs.entitiesByArchetype.exists(id))
             return ecs.entitiesByArchetype.get(id);
         else
-            return null;
+            return [];
     }
 
     public function matches(entity:Int):Bool
