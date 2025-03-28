@@ -12,6 +12,11 @@ class Component
     {
         return nextComponentId++;
     }
+
+    public function dispose():Void
+    {
+        // override this
+    }
 }
 
 typedef CStruct =
