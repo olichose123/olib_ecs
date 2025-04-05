@@ -106,30 +106,30 @@ class ArchetypeStringGroup extends ArchetypeGroup<String>
     }
 }
 
-typedef Coord =
+typedef Coord2 =
 {
     x:Int,
     y:Int
 };
 
-class ArchetypeGroup2D extends ArchetypeGroup<Coord>
+class ArchetypeGroup2 extends ArchetypeGroup<Coord2>
 {
     var entitiesByGroup:Array<Array<Array<Int>>> = [];
-    var entitiesGroup:Array<Coord> = [];
+    var entitiesGroup:Array<Coord2> = [];
 
     public function new(parent:Archetype)
     {
         super(parent);
     }
 
-    public function getEntityGroup(entity:Int):Coord
+    public function getEntityGroup(entity:Int):Coord2
     {
         if (entitiesGroup[entity] == null)
             return null;
         return entitiesGroup[entity];
     }
 
-    public function getGroupEntities(group:Coord):Array<Int>
+    public function getGroupEntities(group:Coord2):Array<Int>
     {
         if (entitiesByGroup[group.x] == null)
             entitiesByGroup[group.x] = [];
@@ -151,7 +151,7 @@ class ArchetypeGroup2D extends ArchetypeGroup<Coord>
         entitiesGroup[entity] = null;
     }
 
-    function setGroup(entity:Int, newValue:Coord):Void
+    function setGroup(entity:Int, newValue:Coord2):Void
     {
         removeFromGroup(entity);
 
@@ -163,6 +163,83 @@ class ArchetypeGroup2D extends ArchetypeGroup<Coord>
             entitiesByGroup[newValue.x][newValue.y] = [];
 
         entitiesByGroup[newValue.x][newValue.y].push(entity);
+        entitiesGroup[entity] = newValue;
+    }
+
+    override function dispose()
+    {
+        super.dispose();
+        entitiesByGroup.resize(0);
+        entitiesByGroup = null;
+        entitiesGroup.resize(0);
+        entitiesGroup = null;
+    }
+}
+
+typedef Coord3 =
+{
+    x:Int,
+    y:Int,
+    z:Int
+};
+
+class ArchetypeGroup3 extends ArchetypeGroup<Coord3>
+{
+    var entitiesByGroup:Array<Array<Array<Array<Int>>>> = [];
+    var entitiesGroup:Array<Coord3> = [];
+
+    public function new(parent:Archetype)
+    {
+        super(parent);
+    }
+
+    public function getEntityGroup(entity:Int):Coord3
+    {
+        if (entitiesGroup[entity] == null)
+            return null;
+        return entitiesGroup[entity];
+    }
+
+    public function getGroupEntities(group:Coord3):Array<Int>
+    {
+        if (entitiesByGroup[group.x] == null)
+            entitiesByGroup[group.x] = [];
+
+        if (entitiesByGroup[group.x][group.y] == null)
+            entitiesByGroup[group.x][group.y] = [];
+
+        if (entitiesByGroup[group.x][group.y][group.z] == null)
+            entitiesByGroup[group.x][group.y][group.z] = [];
+
+        return entitiesByGroup[group.x][group.y][group.z];
+    }
+
+    public function removeFromGroup(entity:Int):Void
+    {
+        // nothing to change
+        if (entitiesGroup[entity] == null)
+            return;
+
+        // remove entity from old group
+        entitiesByGroup[entitiesGroup[entity].x][entitiesGroup[entity].y][entitiesGroup[entity].z].remove(entity);
+        entitiesGroup[entity] = null;
+    }
+
+    function setGroup(entity:Int, newValue:Coord3):Void
+    {
+        removeFromGroup(entity);
+
+        // if the new group does not exist, create it
+        if (entitiesByGroup[newValue.x] == null)
+            entitiesByGroup[newValue.x] = [];
+
+        if (entitiesByGroup[newValue.x][newValue.y] == null)
+            entitiesByGroup[newValue.x][newValue.y] = [];
+
+        if (entitiesByGroup[newValue.x][newValue.y][newValue.z] == null)
+            entitiesByGroup[newValue.x][newValue.y][newValue.z] = [];
+
+        entitiesByGroup[newValue.x][newValue.y][newValue.z].push(entity);
         entitiesGroup[entity] = newValue;
     }
 
