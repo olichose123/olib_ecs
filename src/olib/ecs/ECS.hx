@@ -63,22 +63,20 @@ class ECS
 
         entities.set(entity, componentId, component);
 
-        // refresh all related artefacts
-        // if (archetypesByComponent.exists(componentId) && archetypesByComponent.get(componentId) != null)
-        // {
-        //     for (archetype in archetypesByComponent.get(componentId))
-        //     {
-        //         archetype.fetch();
-        //     }
-        // }
-
         // refresh only the affected entity of an archetype
         if (archetypesByComponent.exists(componentId) && archetypesByComponent.get(componentId) != null)
         {
             for (archetype in archetypesByComponent.get(componentId))
             {
                 if (archetype.matches(entity))
+                {
                     entitiesByArchetype.get(archetype.id).push(entity);
+                    @:privateAccess
+                    for (group in archetype.groups)
+                    {
+                        group.onAddedToArchetype(entity);
+                    }
+                }
             }
         }
     }
@@ -109,21 +107,17 @@ class ECS
         entities.set(entity, componentId, null);
         entitiesByComponent.get(componentId).remove(entity);
 
-        // refresh all related artefacts
-        // if (archetypesByComponent.exists(componentId))
-        // {
-        //     for (archetype in archetypesByComponent.data[componentId])
-        //     {
-        //         archetype.fetch();
-        //     }
-        // }
-
         // refresh only the affected entity of an archetype
         if (archetypesByComponent.exists(componentId))
         {
             for (archetype in archetypesByComponent.get(componentId))
             {
                 entitiesByArchetype.get(archetype.id).remove(entity);
+                @:privateAccess
+                for (group in archetype.groups)
+                {
+                    group.onRemovedFromArchetype(entity);
+                }
             }
         }
 
