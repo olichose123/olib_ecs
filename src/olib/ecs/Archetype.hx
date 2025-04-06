@@ -9,9 +9,10 @@ class Archetype
 
     public var componentIds(default, null):Array<Int>;
 
-    var ecs:ECS;
-
     public var id(default, null):Int;
+
+    var ecs:ECS;
+    var groups:Array<ArchetypeGroup<Dynamic>> = [];
 
     public function new(componentIds:Array<Int>, ecs:ECS)
     {
@@ -40,26 +41,4 @@ class Archetype
         }
         return true;
     }
-
-    // public function refresh():Void
-    // {
-    //     var entities;
-    //     if (componentIds.length == 0)
-    //         entities = [];
-    //     else if (componentIds.length == 1)
-    //         entities = ecs.getEntities(componentIds[0]);
-    //     else
-    //     {
-    //         var result = ecs.getEntities(componentIds[0]);
-    //         for (i in 1...componentIds.length)
-    //         {
-    //             var entities = ecs.getEntities(componentIds[i]);
-    //             if (entities == null)
-    //                 continue;
-    //             result = result.filter(e -> entities.indexOf(e) != -1);
-    //         }
-    //         entities = result;
-    //     }
-    //     ecs.entitiesByArchetype.set(id, entities);
-    // }
 }
